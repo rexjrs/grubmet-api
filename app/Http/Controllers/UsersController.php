@@ -9,7 +9,6 @@ use App\Tokens;
 class UsersController extends Controller
 {
     // ============================= Helper Functions =============================
-    // Testing
     public function __construct()
     {
         $this->authkey = 'jkh89sdf87bjkrgknl234jksdf09sdkl235lksaf90safkjl23';
