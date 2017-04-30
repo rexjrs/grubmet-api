@@ -103,7 +103,10 @@ class UsersController extends Controller
             "response" => ""
         ];
         // Validate Params
-        if(!$mealType){
+        if(!$image){
+            $message["message"] = "Missing image";
+            return response()->json($message,400);
+        }else if(!$mealType){
             $message["message"] = "Missing mealType";
             return response()->json($message,400);
         }else if(!$date){
