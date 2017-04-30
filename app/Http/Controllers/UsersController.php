@@ -116,7 +116,7 @@ class UsersController extends Controller
 
         $checkMeal = Meals::where('date',$date)->where('mealType',$mealType)->first();
         if($checkMeal){
-            Meals::where('date',$date)->where('mealType',$mealType)->delete()
+            Meals::where('date',$date)->where('mealType',$mealType)->delete();
         }
 
         $mealstring = $this->mealID();
