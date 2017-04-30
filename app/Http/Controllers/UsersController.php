@@ -125,9 +125,35 @@ class UsersController extends Controller
             "date" => $date
         ]);
         $message["status"] = "ok";
-        $message["message"] = "Login successful";
+        $message["message"] = "Image Uploaded";
         $message["response"] = [
-            "token" => $token,
+            "image" => $image_name,
+        ];
+        return response()->json($message,200);
+    }
+
+    public function getDay(Request $request){
+        $date = $request->get('date');
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$date){
+            $message["message"] = "Missing date";
+            return response()->json($message,400);
+        }
+        $mealbreakfast = Meals::where('date',$date)->where('meal','breakfast')->pluck('image');
+        $meallunch = Meals::where('date',$date)->where('meal','lunch')->pluck('image');
+        $mealdinner = Meals::where('date',$date)->where('meal','dinner')->pluck('image');
+        $message["status"] = "ok";
+        $message["message"] = "Fetched daily meals";
+        $message["response"] = [
+            "breakfast" => $mealbreakfast,
+            "lunch" => $meallunch,
+            "dinner" => $mealdinner
         ];
         return response()->json($message,200);
     }
