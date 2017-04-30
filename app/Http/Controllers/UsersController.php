@@ -154,6 +154,15 @@ class UsersController extends Controller
         $mealbreakfast = Meals::where('date',$date)->where('meal','breakfast')->pluck('image');
         $meallunch = Meals::where('date',$date)->where('meal','lunch')->pluck('image');
         $mealdinner = Meals::where('date',$date)->where('meal','dinner')->pluck('image');
+        if(!$mealbreakfast){
+            $mealbreakfast = "";
+        }
+        if(!$meallunch){
+            $meallunch = "";
+        }
+        if(!$mealdinner){
+            $mealdinner = "";
+        }
         $message["status"] = "ok";
         $message["message"] = "Fetched daily meals";
         $message["response"] = [
