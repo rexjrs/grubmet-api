@@ -113,6 +113,12 @@ class UsersController extends Controller
             $message["message"] = "Missing date";
             return response()->json($message,400);
         }
+
+        $checkMeal = Meals::where('date',$date)->where('mealType',$mealType)->first();
+        if($checkMeal){
+            Meals::where('date',$date)->where('mealType',$mealType)->delete()
+        }
+
         $mealstring = $this->mealID();
         $imageConverted = base64_decode($image);
         $image_name= $mealstring.'.jpeg';
