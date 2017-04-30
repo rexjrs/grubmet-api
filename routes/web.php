@@ -20,3 +20,4 @@ Route::post('/registernormal', 'UsersController@registerNormal');
 Route::post('/registersocial', 'UsersController@registerSocial');
 Route::post('/normallogin', 'UsersController@normalLogin');
 Route::post('/sociallogin', 'UsersController@socialLogin');
+Route::post('/meallog', 'UsersController@mealLog');

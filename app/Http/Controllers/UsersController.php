@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Users;
 use App\Tokens;
+use App\Meals;
 
 class UsersController extends Controller
 {
@@ -15,6 +16,16 @@ class UsersController extends Controller
     }
 
     public function generateRandomString($length = 60) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    public function mealID($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -79,6 +90,47 @@ class UsersController extends Controller
     }
 
     // ============================= API Functions =============================
+
+    public function mealLog(Request $request){
+        // Get Input
+        $image = $request->get('image');
+        $mealType = $request->get('mealType');
+        $date = $request->get('date');
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$image){
+            $message["message"] = "Missing image";
+            return response()->json($message,400);
+        }else if(!$mealType){
+            $message["message"] = "Missing mealType";
+            return response()->json($message,400);
+        }else if(!$date){
+            $message["message"] = "Missing date";
+            return response()->json($message,400);
+        }
+        $mealstring = $this->mealID();
+        $imageConverted = base64_decode($image);
+        $image_name= $mealstring.'.jpeg';
+        $path = public_path() . "/images/" . $image_name;
+        file_put_contents($path, $imageConverted);
+
+        Meals::create([
+            "image" => $image_name,
+            "meal" => $mealType,
+            "date" => $date
+        ]);
+        $message["status"] = "ok";
+        $message["message"] = "Login successful";
+        $message["response"] = [
+            "token" => $token,
+        ];
+        return response()->json($message,200);
+    }
 
     public function normalLogin(Request $request){
         // Get Input
