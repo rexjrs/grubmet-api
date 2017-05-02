@@ -154,6 +154,7 @@ class UsersController extends Controller
         $mealbreakfast = Meals::where('date',$date)->where('meal','breakfast')->pluck('image');
         $meallunch = Meals::where('date',$date)->where('meal','lunch')->pluck('image');
         $mealdinner = Meals::where('date',$date)->where('meal','dinner')->pluck('image');
+        $mealsnacks = Meals::where('date',$date)->where('meal','snack')->get();
         if(!$mealbreakfast){
             $mealbreakfast = "";
         }
@@ -168,7 +169,8 @@ class UsersController extends Controller
         $message["response"] = [
             "breakfast" => $mealbreakfast,
             "lunch" => $meallunch,
-            "dinner" => $mealdinner
+            "dinner" => $mealdinner,
+            "snacks" => $mealsnacks
         ];
         return response()->json($message,200);
     }
