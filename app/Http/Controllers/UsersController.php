@@ -114,9 +114,11 @@ class UsersController extends Controller
             return response()->json($message,400);
         }
 
-        $checkMeal = Meals::where('date',$date)->where('meal',$mealType)->first();
-        if($checkMeal){
-            Meals::where('date',$date)->where('meal',$mealType)->delete();
+        if($mealType != "snacks"){
+            $checkMeal = Meals::where('date',$date)->where('meal',$mealType)->first();
+            if($checkMeal){
+                Meals::where('date',$date)->where('meal',$mealType)->delete();
+            }
         }
 
         $mealstring = $this->mealID();
