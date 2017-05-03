@@ -1,5 +1,9 @@
 <?php
 
+namespace App;
+
+class Helper extends Controller
+{
     public function generateRandomString($length = 60) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -48,3 +52,4 @@
             return true;
         }
     }
+}

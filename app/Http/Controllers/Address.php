@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Address;
 use App\Users;
 use App\Tokens;
+use App\Helper;
 
 class Address extends Controller
 {
@@ -15,8 +16,6 @@ class Address extends Controller
     {
         $this->authkey = 'jkh89sdf87bjkrgknl234jksdf09sdkl235lksaf90safkjl23';
     }
-
-    include 'Helper.php';
 
     // ============================= Base API Structure =============================
 

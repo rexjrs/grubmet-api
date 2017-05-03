@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Users;
 use App\Tokens;
 use App\Meals;
+use App\Helper;
 
 class UsersController extends Controller
 {
@@ -15,7 +16,6 @@ class UsersController extends Controller
         $this->authkey = 'jkh89sdf87bjkrgknl234jksdf09sdkl235lksaf90safkjl23';
     }
 
-    include 'Helper.php';
 
     // ============================= Base API Structure =============================
 
