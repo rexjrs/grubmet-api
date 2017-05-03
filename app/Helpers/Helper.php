@@ -2,6 +2,9 @@
 
 class Helpers
 {
+	public function test(){
+		return "hellow";
+	}
     public function generateRandomString($length = 60) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
