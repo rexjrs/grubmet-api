@@ -29,7 +29,7 @@ class Helpers
     public static function checkAPIKey($request){
         if(!isset($request->headers->all()["authorization"])){
             return false;
-        }else if(str_replace(['"','[',']'], "", json_encode($request->headers->all()["authorization"])) != $this->authKey){
+        }else if(str_replace(['"','[',']'], "", json_encode($request->headers->all()["authorization"])) != $this->authKey()){
             return false;
         }else{
             return true;
