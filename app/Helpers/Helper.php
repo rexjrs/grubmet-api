@@ -2,9 +2,10 @@
 
 class Helpers
 {
-	public static function authKey(){
-		return 'jkh89sdf87bjkrgknl234jksdf09sdkl235lksaf90safkjl23';
-	}
+    public static function __construct()
+    {
+        $this->authkey = 'jkh89sdf87bjkrgknl234jksdf09sdkl235lksaf90safkjl23';
+    }
 
     public static function generateRandomString($length = 60) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -28,7 +29,7 @@ class Helpers
     public static function checkAPIKey($request){
         if(!isset($request->headers->all()["authorization"])){
             return false;
-        }else if(str_replace(['"','[',']'], "", json_encode($request->headers->all()["authorization"])) != authKey()){
+        }else if(str_replace(['"','[',']'], "", json_encode($request->headers->all()["authorization"])) != $this->authKey{
             return false;
         }else{
             return true;
