@@ -257,8 +257,7 @@ class UsersController extends Controller
                     "username" => $username,
                     "password" => $password,
                     "email" => $email,
-                    "account_type" => "normal",
-                    "test" => Helpers::test()
+                    "account_type" => "normal"
                 ];
                 return response()->json($message,200);
             }else{
