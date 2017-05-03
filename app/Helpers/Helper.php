@@ -2,10 +2,11 @@
 
 class Helpers
 {
-	public static function test(){
-		return "hellow";
+	public static function authKey(){
+		return 'jkh89sdf87bjkrgknl234jksdf09sdkl235lksaf90safkjl23';
 	}
-    public function generateRandomString($length = 60) {
+
+    public static function generateRandomString($length = 60) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -15,7 +16,7 @@ class Helpers
         return $randomString;
     }
 
-    public function checkToken($user_id, $token){
+    public static function checkToken($user_id, $token){
         $checkToken = Tokens::where('user_id', $user_id)->where('token',$token)->first();
         if(!$checkToken){
             return false;
@@ -24,17 +25,17 @@ class Helpers
         }
     }
 
-    public function checkAPIKey($request){
+    public static function checkAPIKey($request){
         if(!isset($request->headers->all()["authorization"])){
             return false;
-        }else if(str_replace(['"','[',']'], "", json_encode($request->headers->all()["authorization"])) != $this->authkey){
+        }else if(str_replace(['"','[',']'], "", json_encode($request->headers->all()["authorization"])) != authKey()){
             return false;
         }else{
             return true;
         }
     }
 
-    public function checkUserToken($request){
+    public static function checkUserToken($request){
         if(!isset($request->headers->all()['token'])){
             return false;
         }else if($this->checkToken($user_id, str_replace(['"','[',']'], "", json_encode($request->headers->all()["token"])))){
