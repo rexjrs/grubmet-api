@@ -2,7 +2,7 @@
 
 class Helpers
 {
-	public function test(){
+	public static function test(){
 		return "hellow";
 	}
     public function generateRandomString($length = 60) {
