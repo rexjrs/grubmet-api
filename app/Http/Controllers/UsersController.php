@@ -134,7 +134,7 @@ class UsersController extends Controller
         $username = $request->get('username');
         $password = $request->get('password');
         // Check API Key
-        if(!Helpers::checkAPIKeys($request)){
+        if(!Helpers::checkAPIKey($request)){
             return response()->json("Authorization token error",401); 
         }
         // Default Response
