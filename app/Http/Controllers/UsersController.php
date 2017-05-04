@@ -39,9 +39,119 @@ class UsersController extends Controller
         }
         // Run API Function
         
+        // Output
+        // $message = [
+        //     "status" => "ok",
+        //     "message" => "",
+        //     "response" => ""
+        // ];
+        return response()->json($message,200);
     }
 
     // ============================= API Functions =============================
+
+    public function addProfile(Request $request){
+        // Get Input
+        $user_id = $request->get('user_id');
+        $email = $request->get('email');
+        $first_name = $request->get('first_name');
+        $last_name = $request->get('last_name');
+        $dob = $request->get('dob');
+        $gender = $request->get('gender');
+        $phone = $request->get('phone');
+        // Check API Key
+        if(!Helpers::checkAPIKey($request)){
+            return response()->json("Authorization token error",401); 
+        }
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$user_id){
+            $message["message"] = "Missing user id";
+            return response()->json($message,400); 
+        }else if(!$email){
+            $message["message"] = "Missing email";
+            return response()->json($message,400);
+        }else if(!$first_name){
+            $message["message"] = "Missing first name";
+            return response()->json($message,400);
+        }else if(!$last_name){
+            $message["message"] = "Missing last name";
+            return response()->json($message,400);
+        }else if(!$dob){
+            $message["message"] = "Missing dob";
+            return response()->json($message,400);
+        }else if(!$gender){
+            $message["message"] = "Missing gender";
+            return response()->json($message,400);
+        }else if(!$phone){
+            $message["message"] = "Missing phone number";
+            return response()->json($message,400);
+        }
+        // Check Token
+        if(!Helpers::checkUserToken($request)){
+            return response()->json("User Token error",401); 
+        }
+        // Run API Function
+        Users::where('id',$user_id)->update([
+            "email" => $email,
+            "firstname" => $first_name,
+            "lastname" => $last_name,
+            "dob" => $dob,
+            "gender" => $gender,
+            "phone" => $phone
+        ]);
+        // Output
+        $message = [
+            "status" => "ok",
+            "message" => "Profile added",
+            "response" => ""
+        ];
+        return response()->json($message,200);
+    }
+
+    public function editPhoneNumber(Request $request){
+        // Get Input
+        $user_id = $request->get('user_id');
+        $phone = $request->get('phone');
+        // Check API Key
+        if(!Helpers::checkAPIKey($request)){
+            return response()->json("Authorization token error",401); 
+        }
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$user_id){
+            $message["message"] = "Missing user id";
+            return response()->json($message,400);
+        }else if(!$phone){
+            $message["message"] = "Missing phone number";
+            return response()->json($message,400);
+        }
+        // Check Token
+        if(!Helpers::checkUserToken($request)){
+            return response()->json("User Token error",401); 
+        }
+        // Run API Function
+        Users::where('id',$user_id)->update([
+            "phone" => $phone
+        ]);
+        // Output
+        $message = [
+            "status" => "ok",
+            "message" => "Phone number updated",
+            "response" => ""
+        ];
+        return response()->json($message,200);
+    }
 
     public function normalLogin(Request $request){
         // Get Input
