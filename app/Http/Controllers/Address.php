@@ -10,7 +10,7 @@ use Helpers;
 
 class Address extends Controller
 {
-    // ============================= Helper Functions =============================
+    // ============================= Construct =============================
 
     public function __construct()
     {
@@ -38,7 +38,7 @@ class Address extends Controller
         if(!Helpers::checkUserToken($request)){
             return response()->json("User Token error",401); 
         }
-        // Run API Function without User Token
+        // Run API Function
 
     }
 

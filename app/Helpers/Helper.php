@@ -2,6 +2,7 @@
 
 class Helpers
 {
+	// Used for generating login token
     public static function generateRandomString($length = 60) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -12,6 +13,7 @@ class Helpers
         return $randomString;
     }
 
+    // Used to check tokens for checkUserToken function
     public static function checkToken($user_id, $token){
         $checkToken = Tokens::where('user_id', $user_id)->where('token',$token)->first();
         if(!$checkToken){
@@ -21,6 +23,7 @@ class Helpers
         }
     }
 
+    // Used to check headers
     public static function checkAPIKey($request){
         if(!isset($request->headers->all()["authorization"])){
             return false;
@@ -31,6 +34,7 @@ class Helpers
         }
     }
 
+    // Used to check tokens sent in the headers
     public static function checkUserToken($request){
         if(!isset($request->headers->all()['token'])){
             return false;

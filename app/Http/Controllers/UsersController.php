@@ -10,7 +10,7 @@ use Helpers;
 
 class UsersController extends Controller
 {
-    // ============================= Helper Functions =============================
+    // ============================= Construct =============================
     public function __construct()
     {
 
@@ -37,97 +37,11 @@ class UsersController extends Controller
         if(!Helpers::checkUserToken($request)){
             return response()->json("User Token error",401); 
         }
-        // Run API Function without User Token
+        // Run API Function
         
     }
 
     // ============================= API Functions =============================
-
-    public function mealLog(Request $request){
-        // Get Input
-        $image = $request->get('image');
-        $mealType = $request->get('mealType');
-        $date = $request->get('date');
-        // Default Response
-        $message = [
-            "status" => "fail",
-            "message" => "API error",
-            "response" => ""
-        ];
-        // Validate Params
-        if(!$image){
-            $message["message"] = "Missing image";
-            return response()->json($message,400);
-        }else if(!$mealType){
-            $message["message"] = "Missing mealType";
-            return response()->json($message,400);
-        }else if(!$date){
-            $message["message"] = "Missing date";
-            return response()->json($message,400);
-        }
-
-        if($mealType != "snack"){
-            $checkMeal = Meals::where('date',$date)->where('meal',$mealType)->first();
-            if($checkMeal){
-                Meals::where('date',$date)->where('meal',$mealType)->delete();
-            }
-        }
-
-        $mealstring = Helpers::mealID();
-        $imageConverted = base64_decode($image);
-        $image_name= $mealstring.'.jpeg';
-        $path = public_path() . "/images/" . $image_name;
-        file_put_contents($path, $imageConverted);
-
-        Meals::create([
-            "image" => $image_name,
-            "meal" => $mealType,
-            "date" => $date
-        ]);
-        $message["status"] = "ok";
-        $message["message"] = "Image Uploaded";
-        $message["response"] = [
-            "image" => $image_name,
-        ];
-        return response()->json($message,200);
-    }
-
-    public function getDay(Request $request){
-        $date = $request->get('date');
-        // Default Response
-        $message = [
-            "status" => "fail",
-            "message" => "API error",
-            "response" => ""
-        ];
-        // Validate Params
-        if(!$date){
-            $message["message"] = "Missing date";
-            return response()->json($message,400);
-        }
-        $mealbreakfast = Meals::where('date',$date)->where('meal','breakfast')->pluck('image');
-        $meallunch = Meals::where('date',$date)->where('meal','lunch')->pluck('image');
-        $mealdinner = Meals::where('date',$date)->where('meal','dinner')->pluck('image');
-        $mealsnacks = Meals::where('date',$date)->where('meal','snack')->get();
-        if(!$mealbreakfast){
-            $mealbreakfast = "";
-        }
-        if(!$meallunch){
-            $meallunch = "";
-        }
-        if(!$mealdinner){
-            $mealdinner = "";
-        }
-        $message["status"] = "ok";
-        $message["message"] = "Fetched daily meals";
-        $message["response"] = [
-            "breakfast" => $mealbreakfast,
-            "lunch" => $meallunch,
-            "dinner" => $mealdinner,
-            "snacks" => $mealsnacks
-        ];
-        return response()->json($message,200);
-    }
 
     public function normalLogin(Request $request){
         // Get Input
@@ -340,5 +254,94 @@ class UsersController extends Controller
                 return response()->json($message,400);
             }
         }
+    }
+
+
+    // ======================= For Alice's App =============================
+
+    public function mealLog(Request $request){
+        // Get Input
+        $image = $request->get('image');
+        $mealType = $request->get('mealType');
+        $date = $request->get('date');
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$image){
+            $message["message"] = "Missing image";
+            return response()->json($message,400);
+        }else if(!$mealType){
+            $message["message"] = "Missing mealType";
+            return response()->json($message,400);
+        }else if(!$date){
+            $message["message"] = "Missing date";
+            return response()->json($message,400);
+        }
+
+        if($mealType != "snack"){
+            $checkMeal = Meals::where('date',$date)->where('meal',$mealType)->first();
+            if($checkMeal){
+                Meals::where('date',$date)->where('meal',$mealType)->delete();
+            }
+        }
+
+        $mealstring = Helpers::mealID();
+        $imageConverted = base64_decode($image);
+        $image_name= $mealstring.'.jpeg';
+        $path = public_path() . "/images/" . $image_name;
+        file_put_contents($path, $imageConverted);
+
+        Meals::create([
+            "image" => $image_name,
+            "meal" => $mealType,
+            "date" => $date
+        ]);
+        $message["status"] = "ok";
+        $message["message"] = "Image Uploaded";
+        $message["response"] = [
+            "image" => $image_name,
+        ];
+        return response()->json($message,200);
+    }
+
+    public function getDay(Request $request){
+        $date = $request->get('date');
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$date){
+            $message["message"] = "Missing date";
+            return response()->json($message,400);
+        }
+        $mealbreakfast = Meals::where('date',$date)->where('meal','breakfast')->pluck('image');
+        $meallunch = Meals::where('date',$date)->where('meal','lunch')->pluck('image');
+        $mealdinner = Meals::where('date',$date)->where('meal','dinner')->pluck('image');
+        $mealsnacks = Meals::where('date',$date)->where('meal','snack')->get();
+        if(!$mealbreakfast){
+            $mealbreakfast = "";
+        }
+        if(!$meallunch){
+            $meallunch = "";
+        }
+        if(!$mealdinner){
+            $mealdinner = "";
+        }
+        $message["status"] = "ok";
+        $message["message"] = "Fetched daily meals";
+        $message["response"] = [
+            "breakfast" => $mealbreakfast,
+            "lunch" => $meallunch,
+            "dinner" => $mealdinner,
+            "snacks" => $mealsnacks
+        ];
+        return response()->json($message,200);
     }
 }
