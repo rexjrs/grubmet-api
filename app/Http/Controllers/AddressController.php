@@ -54,6 +54,48 @@ class AddressController extends Controller
 
     // ============================= API Functions =============================
 
+    public function deleteAddress(Request $request){
+        // Get Input
+        $user_id = $request->get('user_id');
+        $address_id = $request->get('address_id');
+        // Check API Key
+        if(!Helpers::checkAPIKey($request)){
+            return response()->json("Authorization token error",401); 
+        }
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$user_id){
+            $message["message"] = "Missing user id";
+            return response()->json($message,400); 
+        }else if(!$address_id){
+            $message["message"] = "Missing address id";
+            return response()->json($message,400);
+        }
+        // Check Token
+        if(!Helpers::checkUserToken($request)){
+            return response()->json("User Token error",401); 
+        }
+        // Run API Function
+        $findAddress = Address::where('id',$address_id)->where('user_id',$user_id)->first();
+        if(!$findAddress){
+            $message["message"] = "Address id was not found";
+            return response()->json($message,400);
+        }
+        Address::where('id',$address_id)->where('user_id',$user_id)->delete();
+        // Output
+        $message = [
+            "status" => "ok",
+            "message" => "Address was deleted",
+            "response" => ""
+        ];
+        return response()->json($message,200);
+    } 
+
     public function editAddress(Request $request){
         // Get Input
         $user_id = $request->get('user_id');
@@ -110,7 +152,7 @@ class AddressController extends Controller
             return response()->json("User Token error",401); 
         }
         // Run API Function
-        $findAddress = Address::where('id',$address_id)->first();
+        $findAddress = Address::where('id',$address_id)->where('user_id',$user_id)->first();
         if(!$findAddress){
             $message["message"] = "Address id was not found";
             return response()->json($message,400);
