@@ -53,7 +53,7 @@ class UsersController extends Controller
     public function uploadProfilePic(Request $request){
         // Get Input
         $user_id = $request->get('user_id');
-        $profile_image = $request->get('profile_image');
+        $image = $request->get('profile_image');
         // Check API Key
         if(!Helpers::checkAPIKey($request)){
             return response()->json("Authorization token error",401); 
@@ -65,19 +65,32 @@ class UsersController extends Controller
             "response" => ""
         ];
         // Validate Params
-
+        if(!$user_id){
+            $message["message"] = "Missing user id";
+            return response()->json($message,400); 
+        }else if(!$image){
+            $message["message"] = "Missing image";
+            return response()->json($message,400);
+        }
         // Check Token
         if(!Helpers::checkUserToken($request)){
             return response()->json("User Token error",401); 
         }
         // Run API Function
-        
-        // Output
-        // $message = [
-        //     "status" => "ok",
-        //     "message" => "",
-        //     "response" => ""
-        // ];
+        $profileString = Helpers::mealID();
+        $imageConverted = base64_decode($image);
+        $image_name= $profileString.'.jpeg';
+        $path = public_path() . "/images/" . $image_name;
+        file_put_contents($path, $imageConverted);
+
+        Users::where('id',$user_id)->update([
+            "profile_image" => $image_name
+        ]);
+        $message["status"] = "ok";
+        $message["message"] = "Image Uploaded";
+        $message["response"] = [
+            "image" => $image_name,
+        ];
         return response()->json($message,200);
     }
 

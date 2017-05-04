@@ -22,6 +22,7 @@ Route::post('/normallogin', 'UsersController@normalLogin');
 Route::post('/sociallogin', 'UsersController@socialLogin');
 Route::post('/editphone', 'UsersController@editPhoneNumber');
 Route::post('/addprofile', 'UsersController@addProfile');
+Route::post('/profileimage', 'UsersController@uploadProfilePic');
 
 // Address
 Route::post('/newaddress', 'AddressController@newAddress');
