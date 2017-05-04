@@ -158,10 +158,11 @@ class UsersController extends Controller
         return response()->json($message,200);
     }
 
-    public function editPhoneNumber(Request $request){
+    public function editProfile(Request $request){
         // Get Input
         $user_id = $request->get('user_id');
         $phone = $request->get('phone');
+        $email = $request->get('email');
         // Check API Key
         if(!Helpers::checkAPIKey($request)){
             return response()->json("Authorization token error",401); 
@@ -179,6 +180,9 @@ class UsersController extends Controller
         }else if(!$phone){
             $message["message"] = "Missing phone number";
             return response()->json($message,400);
+        }else if(!$email){
+            $message["message"] = "Missing email";
+            return response()->json($message,400);
         }
         // Check Token
         if(!Helpers::checkUserToken($request)){
@@ -186,7 +190,8 @@ class UsersController extends Controller
         }
         // Run API Function
         Users::where('id',$user_id)->update([
-            "phone" => $phone
+            "phone" => $phone,
+            "email" => $email
         ]);
         // Output
         $message = [
