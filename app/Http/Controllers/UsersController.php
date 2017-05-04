@@ -83,6 +83,7 @@ class UsersController extends Controller
                 $message["message"] = "Login successful";
                 $message["response"] = [
                     "token" => $token,
+                    "user_id" => $findUser['id']
                 ];
                 return response()->json($message,200);
             }

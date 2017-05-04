@@ -19,9 +19,9 @@ class AddressController extends Controller
 
     // ============================= Base API Structure =============================
 
-    public function exampleApi(Request $request){
+    public function exampleAPI(Request $request){
         // Get Input
-
+        $user_id = $request->get('user_id');
         // Check API Key
         if(!Helpers::checkAPIKey($request)){
             return response()->json("Authorization token error",401); 
@@ -33,14 +33,24 @@ class AddressController extends Controller
             "response" => ""
         ];
         // Validate Params
-
+        if(!$user_id){
+            $message["message"] = "Missing user id";
+            return response()->json($message,400); 
+        }
         // Check Token
         if(!Helpers::checkUserToken($request)){
             return response()->json("User Token error",401); 
         }
         // Run API Function
 
-    }
+        // Output
+        // $message = [
+        //     "status" => "ok",
+        //     "message" => "",
+        //     "response" => ""
+        // ];
+        return response()->json($message,200);
+    }  
 
     // ============================= API Functions =============================
 
@@ -115,4 +125,37 @@ class AddressController extends Controller
         ];
         return response()->json($message,200);
     }
+
+    public function getAddress(Request $request){
+        // Get Input
+        $user_id = $request->get('user_id');
+        // Check API Key
+        if(!Helpers::checkAPIKey($request)){
+            return response()->json("Authorization token error",401); 
+        }
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$user_id){
+            $message["message"] = "Missing user id";
+            return response()->json($message,400); 
+        }
+        // Check Token
+        if(!Helpers::checkUserToken($request)){
+            return response()->json("User Token error",401); 
+        }
+        // Run API Function
+        $address = Address::where('user_id',$user_id)->get();
+
+        $message = [
+            "status" => "ok",
+            "message" => "Address fetched",
+            "response" => $address
+        ];
+        return response()->json($message,200);
+    }    
 }

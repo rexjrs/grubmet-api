@@ -23,6 +23,7 @@ Route::post('/sociallogin', 'UsersController@socialLogin');
 
 // Address
 Route::post('/newaddress', 'AddressController@newAddress');
+Route::post('/getaddress', 'AddressController@getAddress');
 
 // Alice app
 Route::post('/meallog', 'UsersController@mealLog');
