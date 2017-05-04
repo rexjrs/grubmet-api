@@ -50,6 +50,37 @@ class UsersController extends Controller
 
     // ============================= API Functions =============================
 
+    public function uploadProfilePic(Request $request){
+        // Get Input
+        $user_id = $request->get('user_id');
+        $profile_image = $request->get('profile_image');
+        // Check API Key
+        if(!Helpers::checkAPIKey($request)){
+            return response()->json("Authorization token error",401); 
+        }
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+
+        // Check Token
+        if(!Helpers::checkUserToken($request)){
+            return response()->json("User Token error",401); 
+        }
+        // Run API Function
+        
+        // Output
+        // $message = [
+        //     "status" => "ok",
+        //     "message" => "",
+        //     "response" => ""
+        // ];
+        return response()->json($message,200);
+    }
+
     public function addProfile(Request $request){
         // Get Input
         $user_id = $request->get('user_id');
