@@ -20,5 +20,10 @@ Route::post('/registernormal', 'UsersController@registerNormal');
 Route::post('/registersocial', 'UsersController@registerSocial');
 Route::post('/normallogin', 'UsersController@normalLogin');
 Route::post('/sociallogin', 'UsersController@socialLogin');
+
+// Address
+Route::post('/newaddress', 'AddressController@newAddress');
+
+// Alice app
 Route::post('/meallog', 'UsersController@mealLog');
 Route::post('/getmeals', 'UsersController@getDay');

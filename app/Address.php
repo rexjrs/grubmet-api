@@ -14,6 +14,9 @@ class Address extends Model
     	'line_two',
     	'city',
     	'country',
-    	'phone'
+    	'phone',
+    	'first_name',
+    	'last_name',
+    	'zip_code'
     ];
 }

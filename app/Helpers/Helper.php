@@ -1,5 +1,7 @@
 <?php
 
+use App\Tokens;
+
 class Helpers
 {
 	// Used for generating login token
@@ -17,9 +19,9 @@ class Helpers
     public static function checkToken($user_id, $token){
         $checkToken = Tokens::where('user_id', $user_id)->where('token',$token)->first();
         if(!$checkToken){
-            return false;
-        }else{
             return true;
+        }else{
+            return false;
         }
     }
 
@@ -38,7 +40,7 @@ class Helpers
     public static function checkUserToken($request){
         if(!isset($request->headers->all()['token'])){
             return false;
-        }else if($this->checkToken($user_id, str_replace(['"','[',']'], "", json_encode($request->headers->all()["token"])))){
+        }else if(self::checkToken($request->get('user_id'), str_replace(['"','[',']'], "", json_encode($request->headers->all()["token"])))){
             return false;
         }else{
             return true;
