@@ -424,6 +424,10 @@ class UsersController extends Controller
         $image = $request->get('image');
         $mealType = $request->get('mealType');
         $date = $request->get('date');
+        $desc = $request->get('desc');
+        if(!$desc){
+            $desc = "";
+        }
         // Default Response
         $message = [
             "status" => "fail",
@@ -458,7 +462,8 @@ class UsersController extends Controller
         Meals::create([
             "image" => $image_name,
             "meal" => $mealType,
-            "date" => $date
+            "date" => $date,
+            "descr" => $desc
         ]);
         $message["status"] = "ok";
         $message["message"] = "Image Uploaded";
@@ -482,9 +487,13 @@ class UsersController extends Controller
             return response()->json($message,400);
         }
         $mealbreakfast = Meals::where('date',$date)->where('meal','breakfast')->pluck('image');
+        $mealbreakfastdesc = Meals::where('date',$date)->where('meal','breakfast')->pluck('descr');
         $meallunch = Meals::where('date',$date)->where('meal','lunch')->pluck('image');
+        $meallunchdesc = Meals::where('date',$date)->where('meal','lunch')->pluck('descr');
         $mealdinner = Meals::where('date',$date)->where('meal','dinner')->pluck('image');
+        $mealdinnerdesc = Meals::where('date',$date)->where('meal','dinner')->pluck('descr');
         $mealsnacks = Meals::where('date',$date)->where('meal','snack')->get();
+        $mealsnacksdesc = Meals::where('date',$date)->where('meal','snack')->pluck('descr');
         if(!$mealbreakfast){
             $mealbreakfast = "";
         }
@@ -498,8 +507,11 @@ class UsersController extends Controller
         $message["message"] = "Fetched daily meals";
         $message["response"] = [
             "breakfast" => $mealbreakfast,
+            "breakfastDesc" => $mealbreakfastdesc,
             "lunch" => $meallunch,
+            "lunchDesc" => $meallunchdesc,
             "dinner" => $mealdinner,
+            "dinnerDesc" => $mealdinnerdesc,
             "snacks" => $mealsnacks
         ];
         return response()->json($message,200);
