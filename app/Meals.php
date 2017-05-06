@@ -12,5 +12,6 @@ class Meals extends Model
     	'image',
     	'meal',
     	'date',
+    	'descr'
     ];
 }
