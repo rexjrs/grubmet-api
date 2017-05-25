@@ -565,7 +565,7 @@ class UsersController extends Controller
         ];
         $data = Workshop::get();
         $message["status"] = "ok";
-        $message["message"] = "Fetched daily meals";
+        $message["message"] = "Fetched workshop data";
         $message["response"] = $data;
         return response()->json($message,200);
     }
