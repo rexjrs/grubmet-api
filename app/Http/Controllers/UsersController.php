@@ -563,7 +563,7 @@ class UsersController extends Controller
             "message" => "API error",
             "response" => ""
         ];
-        $data = Workshop::->orderBy('created_at','desc')get();
+        $data = Workshop::orderBy('created_at','desc')get();
         $message["status"] = "ok";
         $message["message"] = "Fetched workshop data";
         $message["response"] = $data;
