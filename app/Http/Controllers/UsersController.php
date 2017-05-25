@@ -7,6 +7,7 @@ use App\Users;
 use App\Tokens;
 use App\Meals;
 use Helpers;
+use App\Workshop;
 
 class UsersController extends Controller
 {
@@ -514,6 +515,78 @@ class UsersController extends Controller
             "dinnerDesc" => $mealdinnerdesc,
             "snacks" => $mealsnacks
         ];
+        return response()->json($message,200);
+    }
+    // ======================= For Workshop App =============================
+
+    public function workshop(Request $request){
+        // Get Input
+        $image = $request->get('image');
+        $date = $request->get('date');
+        $desc = $request->get('description');
+        if(!$desc){
+            $desc = "";
+        }
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$image){
+            $message["message"] = "Missing image";
+            return response()->json($message,400);
+        }else if(!$date){
+            $message["message"] = "Missing date";
+            return response()->json($message,400);
+        }
+
+        $mealstring = Helpers::mealID();
+        $imageConverted = base64_decode($image);
+        $image_name= $mealstring.'.jpeg';
+        $path = public_path() . "/images/" . $image_name;
+        file_put_contents($path, $imageConverted);
+
+        Workshop::create([
+            "image" => $image_name,
+            "date" => $date,
+            "description" => $desc
+        ]);
+        $message["status"] = "ok";
+        $message["message"] = "Image Uploaded";
+        $message["response"] = [
+            "image" => $image_name,
+        ];
+        return response()->json($message,200);
+    }
+
+    public function getWorkshop(Request $request){
+        $date = $request->get('date');
+        // Default Response
+        $message = [
+            "status" => "fail",
+            "message" => "API error",
+            "response" => ""
+        ];
+        // Validate Params
+        if(!$date){
+            $message["message"] = "Missing date";
+            return response()->json($message,400);
+        }
+        $data = Meals::where('date',$date)->get();
+        if(!$mealbreakfast){
+            $mealbreakfast = "";
+        }
+        if(!$meallunch){
+            $meallunch = "";
+        }
+        if(!$mealdinner){
+            $mealdinner = "";
+        }
+        $message["status"] = "ok";
+        $message["message"] = "Fetched daily meals";
+        $message["response"] = $data;
         return response()->json($message,200);
     }
 }
