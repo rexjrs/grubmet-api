@@ -556,20 +556,14 @@ class UsersController extends Controller
         return response()->json($message,200);
     }
 
-    public function getWorkshop(Request $request){
-        $date = $request->get('date');
+    public function getWorkshop(){
         // Default Response
         $message = [
             "status" => "fail",
             "message" => "API error",
             "response" => ""
         ];
-        // Validate Params
-        if(!$date){
-            $message["message"] = "Missing date";
-            return response()->json($message,400);
-        }
-        $data = Workshop::where('date',$date)->get();
+        $data = Workshop::get();
         $message["status"] = "ok";
         $message["message"] = "Fetched daily meals";
         $message["response"] = $data;

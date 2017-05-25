@@ -36,4 +36,4 @@ Route::post('/getmeals', 'UsersController@getDay');
 
 // Workshop app
 Route::post('/workshop', 'UsersController@workshop');
-Route::post('/getworkshop', 'UsersController@getWorkshop');
+Route::get('/getworkshop', 'UsersController@getWorkshop');
