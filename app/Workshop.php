@@ -11,6 +11,7 @@ class Workshop extends Model
     protected $fillable = [
     	'image',
     	'date',
-    	'description'
+    	'description',
+    	'name'
     ];
 }

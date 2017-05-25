@@ -524,6 +524,7 @@ class UsersController extends Controller
         $image = $request->get('image');
         $date = $request->get('date');
         $desc = $request->get('description');
+        $name = $request->get('name');
         if(!$desc){
             $desc = "";
         }
@@ -540,6 +541,9 @@ class UsersController extends Controller
         }else if(!$date){
             $message["message"] = "Missing date";
             return response()->json($message,400);
+        }else if(!$name){
+            $message["message"] = "Missing name";
+            return response()->json($message,400);
         }
 
         $mealstring = Helpers::mealID();
@@ -551,6 +555,7 @@ class UsersController extends Controller
         Workshop::create([
             "image" => $image_name,
             "date" => $date,
+            "name" => $name,
             "description" => $desc
         ]);
         $message["status"] = "ok";
