@@ -574,16 +574,7 @@ class UsersController extends Controller
             $message["message"] = "Missing date";
             return response()->json($message,400);
         }
-        $data = Meals::where('date',$date)->get();
-        if(!$mealbreakfast){
-            $mealbreakfast = "";
-        }
-        if(!$meallunch){
-            $meallunch = "";
-        }
-        if(!$mealdinner){
-            $mealdinner = "";
-        }
+        $data = Workshop::where('date',$date)->get();
         $message["status"] = "ok";
         $message["message"] = "Fetched daily meals";
         $message["response"] = $data;
