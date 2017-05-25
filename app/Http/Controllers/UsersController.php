@@ -522,8 +522,6 @@ class UsersController extends Controller
     public function workshop(Request $request){
         // Get Input
         $image = $request->get('image');
-        $date = $request->get('date');
-        $desc = $request->get('description');
         $name = $request->get('name');
         if(!$desc){
             $desc = "";
@@ -538,9 +536,6 @@ class UsersController extends Controller
         if(!$image){
             $message["message"] = "Missing image";
             return response()->json($message,400);
-        }else if(!$date){
-            $message["message"] = "Missing date";
-            return response()->json($message,400);
         }else if(!$name){
             $message["message"] = "Missing name";
             return response()->json($message,400);
@@ -554,9 +549,7 @@ class UsersController extends Controller
 
         Workshop::create([
             "image" => $image_name,
-            "date" => $date,
             "name" => $name,
-            "description" => $desc
         ]);
         $message["status"] = "ok";
         $message["message"] = "Image Uploaded";
