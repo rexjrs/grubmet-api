@@ -33,3 +33,7 @@ Route::post('/deleteaddress', 'AddressController@deleteAddress');
 // Alice app
 Route::post('/meallog', 'UsersController@mealLog');
 Route::post('/getmeals', 'UsersController@getDay');
+
+// Workshop app
+Route::post('/workshop', 'UsersController@workshop');
+Route::post('/getworkshop', 'UsersController@getWorkshop');
