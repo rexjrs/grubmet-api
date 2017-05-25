@@ -523,9 +523,6 @@ class UsersController extends Controller
         // Get Input
         $image = $request->get('image');
         $name = $request->get('name');
-        if(!$desc){
-            $desc = "";
-        }
         // Default Response
         $message = [
             "status" => "fail",
